@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Person from './Person/Person';
 
 class App extends Component {
   render() {
-    return (
+     return (
       <div className="App">
         <header className="App-header">
+          <h1>Hey, I'm Thomas !</h1>
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            This is really working !
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <Person name="Thomas" age="28" />
+          <Person name="Nutella" age="24" > My Hobbies : VideoGames </Person>
+          <Person name="Computer" age="21" />
         </header>
       </div>
     );
+    /* return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello, I\'m Thomas !')); */
   }
 }
 
