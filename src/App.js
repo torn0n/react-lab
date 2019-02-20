@@ -13,17 +13,34 @@ class App extends Component {
     otherState: 'some other value'
   }
 
-  switchNameHandler = () => {
+  switchNameHandler = (newName) => {
     this.setState({
       persons : [
-        { name: 'Toto', age: 18},
+        { name: newName, age: 18},
         { name: 'Compote', age: 14},
         { name: 'Console', age: 11}
       ]
     });
   }
 
+  nameChangedHandler = (event) => {
+    this.setState({
+      persons : [
+        { name: 'Thomas', age: 18},
+        { name: event.target.value, age: 14},
+        { name: 'Console', age: 11}
+      ]
+    });
+  }
+
   render() {
+    const style = {
+      backgroundColor: 'white',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };
+
      return (
       <div className="App">
         <header className="App-header">
@@ -32,10 +49,20 @@ class App extends Component {
           <p>
             This is really working !
           </p>
-          <button onClick={this.switchNameHandler}>Switch Name</button>
-          <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-          <Person name={this.state.persons[1].name} age={this.state.persons[1].age} > My Hobbies : VideoGames </Person>
-          <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+          <button 
+          style={style}
+          onClick={() => this.switchNameHandler('Jesus')}>Switch Name</button>
+          <Person 
+            name={this.state.persons[0].name} 
+            age={this.state.persons[0].age} />
+          <Person 
+            name={this.state.persons[1].name} 
+            age={this.state.persons[1].age} 
+            click={this.switchNameHandler.bind(this, 'Japon')} 
+            changed={this.nameChangedHandler}> My Hobbies : VideoGames </Person>
+          <Person 
+            name={this.state.persons[2].name} 
+            age={this.state.persons[2].age} />
         </header>
       </div>
     );
