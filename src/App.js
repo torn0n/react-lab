@@ -6,22 +6,29 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons : [
-      { name: 'Thomas', age: 28},
-      { name: 'Nutella', age: 24},
-      { name: 'Computer', age: 21}
+      {id:'aaa', name: 'Thomas', age: 28},
+      {id:'bbb', name: 'Nutella', age: 24},
+      {id:'ccc', name: 'Computer', age: 21}
     ],
     otherState: 'some other value',
     showPersons: false
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons : [
-        { name: 'Thomas', age: 18},
-        { name: event.target.value, age: 14},
-        { name: 'Console', age: 11}
-      ]
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
     });
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({persons: persons});
   }
 
   deletePersonHandler = (personIndex) => {
@@ -53,7 +60,9 @@ class App extends Component {
            return <Person
             click={() => this.deletePersonHandler(index)}
             name={person.name} 
-            age={person.age} />
+            age={person.age}
+            key={person.id}
+            changed={(event) => this.nameChangedHandler(event, person.id)} />
          })}
         </div>
       );
@@ -74,23 +83,7 @@ class App extends Component {
        </header>
      </div>
     );
-    /* return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello, I\'m Thomas !')); */
   }
 }
 
 export default App;
-
-
-/*
-      <Person 
-           name={this.state.persons[0].name} 
-           age={this.state.persons[0].age} />
-         <Person 
-           name={this.state.persons[1].name} 
-           age={this.state.persons[1].age} 
-           click={this.switchNameHandler.bind(this, 'Japon')} 
-           changed={this.nameChangedHandler}> My Hobbies : VideoGames </Person>
-         <Person 
-           name={this.state.persons[2].name} 
-           age={this.state.persons[2].age} />
-*/
