@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
 import './App.css';
-import Person from './Person/Person';
+import Radium, { StyleRoot } from 'radium';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
   state = {
@@ -18,21 +20,16 @@ class App extends Component {
     const personIndex = this.state.persons.findIndex(p => {
       return p.id === id;
     });
-
     const person = {
       ...this.state.persons[personIndex]
     };
-
     person.name = event.target.value;
-
     const persons = [...this.state.persons];
     persons[personIndex] = person;
-
     this.setState({persons: persons});
   }
 
   deletePersonHandler = (personIndex) => {
-    // const persons = this.state.persons.slice();
     const persons = [...this.state.persons]
     persons.splice(personIndex, 1);
     this.setState({persons: persons})
@@ -44,46 +41,32 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'white',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
 
     let persons = null;
 
     if (this.state.showPersons) {
-      persons = (
-        <div>
-         {this.state.persons.map((person, index) => {
-           return <Person
-            click={() => this.deletePersonHandler(index)}
-            name={person.name} 
-            age={person.age}
-            key={person.id}
-            changed={(event) => this.nameChangedHandler(event, person.id)} />
-         })}
-        </div>
-      );
+      persons =
+          <Persons 
+            persons={this.state.persons} 
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangedHandler} />;
     }
 
     return (
+     <StyleRoot>
      <div className="App">
        <header className="App-header">
-         <h1>Hey, I'm Thomas !</h1>
-         <img src={logo} className="App-logo" alt="logo" />
-         <p>
-           This is really working !
-         </p>
-         <button 
-         style={style}
-         onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        <Cockpit 
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler}
+        />
         {persons}
        </header>
      </div>
+     </StyleRoot> 
     );
   }
 }
 
-export default App;
+export default Radium(App);
