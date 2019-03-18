@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import Radium, { StyleRoot } from 'radium';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    console.log('[App.js] constructor');
+    
+  }
+
   state = {
     persons : [
       {id:'aaa', name: 'Thomas', age: 28},
@@ -13,7 +18,26 @@ class App extends Component {
       {id:'ccc', name: 'Computer', age: 21}
     ],
     otherState: 'some other value',
-    showPersons: false
+    showPersons: false,
+    showCockpit: true
+  }
+
+  static getDerivedStateFromProps(props, state){
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentDidMount(){
+    console.log('[App.js] componentDidMount');
+  }
+
+  componentDidUpdate(){
+    console.log('[App.js] componentDidUpdate');
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    console.log('[App.js] shouldComponentUpdate');
+    return true;
   }
 
   nameChangedHandler = (event, id) => {
@@ -41,7 +65,7 @@ class App extends Component {
   }
 
   render() {
-
+    console.log('[App.js] render');
     let persons = null;
 
     if (this.state.showPersons) {
@@ -53,20 +77,26 @@ class App extends Component {
     }
 
     return (
-     <StyleRoot>
      <div className="App">
        <header className="App-header">
-        <Cockpit 
+
+       <button onClick={() => {
+         this.setState({showCockpit: false});
+         }}>
+         Remove Cockpit
+        </button>
+
+        {this.state.showCockpit ? <Cockpit 
+          title={this.props.appTitle}
           showPersons={this.state.showPersons}
           persons={this.state.persons}
           clicked={this.togglePersonsHandler}
-        />
+        /> : null }
         {persons}
        </header>
      </div>
-     </StyleRoot> 
     );
   }
 }
 
-export default Radium(App);
+export default App;

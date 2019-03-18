@@ -1,21 +1,24 @@
-import React from 'react';
-import Radium from 'radium';
-import './Person.css';
+import React, { Component } from 'react';
+import styles from './Person.module.css';
 
-const person = (props) => {
-    const style = {
-        '@media (min-width: 500px)': {
-            width: '450px'
-        }
-    };
+class Person extends Component {
+    
 
-    return (
-        <div className="Person" style={style}>
-            <p onClick={props.click}>I'm a {props.name}  and I am {props.age} years old ! :D</p>
-            <p>{props.children}</p>
-            <input type="text" onChange={props.changed} value={props.name} />
-        </div>
-    )
+    render(){
+        console.log('[Person.js] rendering...');
+
+        return (
+            <div className={styles.Person}>
+                <p onClick={this.props.click}>I'm a {this.props.name}  and I am {this.props.age} years old ! :D</p>
+                <p>{this.props.children}</p>
+                <input type="text" onChange={this.props.changed} value={this.props.name} />
+            </div>
+        )
+    }
+    
+
+
+
 };
 
-export default Radium(person);
+export default Person;
